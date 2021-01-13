@@ -1,0 +1,25 @@
+generatorOptions:
+ disableNameSuffixHash: true
+secretGenerator:
+  - name: app-mysql-pass
+    namespace: app
+    literals:
+    - password=ASuperSecurePassword
+  - name: db-mysql-pass
+    namespace: database
+    literals:
+    - password=ASuperSecurePassword
+  - name: grafana
+    namespace: observability
+    literals:
+    - admin-username=grafana
+    - admin-password=grafanapassword
+resources:
+  - database/mysql-deployment.yaml
+  - app/wordpress-deployment.yaml
+  - app/ingress.yaml
+  - frontend/cert-manager-staging.yaml
+  - frontend/cert-manager.yaml
+  - frontend/nginx-ingress.yaml
+patchesStrategicMerge:
+  - your-info.yml 
