@@ -6,6 +6,16 @@ There are various folders here that start as a basic application and gradually a
 
 I have done my best to use Kustomize to add features to each section, so you could use this as a base for dev/acc/prod etc if desired.
 
+# Plan:
+
+1. Make a standard deployment
+2. Add monitoring
+3. Add logging
+4. Add Network Policies
+5. Add Pod Security Policies
+6. Add alerting and link to third party software
+7. Whatever I think up next
+
 ## Architecture
 
 ### A basic website with segregated namespaces
