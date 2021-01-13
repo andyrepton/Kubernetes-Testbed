@@ -8,12 +8,12 @@ secretGenerator:
   - name: db-mysql-pass
     namespace: database
     literals:
-    - password=NRwcxaDffgBxmfVT3piZtsPqrHb
+    - password=ASuperSecurePassword
   - name: grafana
     namespace: observability
     literals:
     - admin-username=grafana
-    - admin-password=NRwcxaDffgBxmfVT3piZtsPqrHb
+    - admin-password=grafanapassword
 resources:
   - database/mysql-deployment.yaml
   - app/wordpress-deployment.yaml
