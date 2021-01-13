@@ -14,3 +14,9 @@ metadata:
 spec:
   rules:
   - host: wordpress-1.k8s.personal.andyrepton.com
+    http:
+      paths:
+      - backend:
+          serviceName: wordpress
+          servicePort: 80
+        path: /
