@@ -8,25 +8,12 @@ I have done my best to use Kustomize to add features to each section, so you cou
 
 # Contents
 
-- [1. Deploying a wordpress app with a database and ingress](#1-deploying-a-wordpress-app-with-a-database-and-ingress)
-  * [Overview:](#overview-)
-  * [Deploying:](#deploying-)
-    + [Alternative option: Moving the nameservers for the domain to GCP](#alternative-option--moving-the-nameservers-for-the-domain-to-gcp)
-- [1.a) Upgrade: adding an SSL certificate using LetsEncrypt staging](#1a--upgrade--adding-an-ssl-certificate-using-letsencrypt-staging)
-  * [Overview:](#overview--1)
-  * [Deploying:](#deploying--1)
-- [1.b) Upgrade: adding an SSL certificate using LetsEncrypt production](#1b--upgrade--adding-an-ssl-certificate-using-letsencrypt-production)
-  * [Overview:](#overview--2)
-  * [Deploying:](#deploying--2)
-- [2. Adding prometheus, blackbox exporter and grafana for monitoring. FluentD and Loki for logging.](#2-adding-prometheus--blackbox-exporter-and-grafana-for-monitoring-fluentd-and-loki-for-logging)
-  * [Overview:](#overview--3)
-  * [Deploying:](#deploying--3)
-- [2.a) Upgrade: auto creating our prometheus data source and dashboard in grafana without a PVC](#2a--upgrade--auto-creating-our-prometheus-data-source-and-dashboard-in-grafana-without-a-pvc)
-  * [Overview](#overview)
-  * [Deployment](#deployment)
-- [2.b) Upgrade: adding an ingress for our grafana system so we don't need to port forward](#2b--upgrade--adding-an-ingress-for-our-grafana-system-so-we-don-t-need-to-port-forward)
-  * [Overview](#overview-1)
-  * [Deployment](#deployment-1)
+- [1. Deploying a wordpress app with a database and ingress](https://github.com/Seth-Karlo/Kubernetes-Testbed#1-deploying-a-wordpress-app-with-a-database-and-ingress)
+- [1.a) Upgrade: adding an SSL certificate using LetsEncrypt staging](https://github.com/Seth-Karlo/Kubernetes-Testbed#1a--upgrade--adding-an-ssl-certificate-using-letsencrypt-staging)
+- [1.b) Upgrade: adding an SSL certificate using LetsEncrypt production](https://github.com/Seth-Karlo/Kubernetes-Testbed#1b--upgrade--adding-an-ssl-certificate-using-letsencrypt-production)
+- [2. Adding prometheus, blackbox exporter and grafana for monitoring. FluentD and Loki for logging.](https://github.com/Seth-Karlo/Kubernetes-Testbed#2-adding-prometheus--blackbox-exporter-and-grafana-for-monitoring-fluentd-and-loki-for-logging)
+- [2.a) Upgrade: auto creating our prometheus data source and dashboard in grafana without a PVC](https://github.com/Seth-Karlo/Kubernetes-Testbed#2a--upgrade--auto-creating-our-prometheus-data-source-and-dashboard-in-grafana-without-a-pvc)
+- [2.b) Upgrade: adding an ingress for our grafana system so we don't need to port forward](https://github.com/Seth-Karlo/Kubernetes-Testbed#2b--upgrade--adding-an-ingress-for-our-grafana-system-so-we-don-t-need-to-port-forward)
 
 # Plan:
 
