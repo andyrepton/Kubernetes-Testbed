@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: wordpress-1.k8s.personal.andyrepton.com
+  - host: wordpress.your-domain.test.com
     http:
       paths:
       - backend:

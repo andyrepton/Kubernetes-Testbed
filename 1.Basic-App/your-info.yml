@@ -14,7 +14,3 @@ metadata:
 spec:
   rules:
   - host: wordpress-1.k8s.personal.andyrepton.com
-  tls:
-  - hosts:
-    - wordpress-1.k8s.personal.andyrepton.com
-    secretName: wordpress-cert

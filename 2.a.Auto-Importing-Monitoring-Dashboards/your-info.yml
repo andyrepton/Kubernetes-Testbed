@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging
+  name: letsencrypt-prod
 spec:
   acme:
     email: letsencrypt@falconsupport.com
@@ -14,7 +14,3 @@ metadata:
 spec:
   rules:
   - host: wordpress-1.k8s.personal.andyrepton.com
-  tls:
-  - hosts:
-    - wordpress-1.k8s.personal.andyrepton.com
-    secretName: wordpress-cert

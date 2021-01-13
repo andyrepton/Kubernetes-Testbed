@@ -8,7 +8,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   rules:
-  - host: wordpress-1.k8s.personal.andyrepton.com
+  - host: wordpress.your-domain.test.com
     http:
       paths:
       - backend:
@@ -17,5 +17,5 @@ spec:
         path: /
   tls:
   - hosts:
-    - wordpress-1.k8s.personal.andyrepton.com
+    - wordpress.your-domain.test.com
     secretName: wordpress-cert

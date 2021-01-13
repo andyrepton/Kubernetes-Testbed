@@ -1,4 +1,4 @@
-# Kubernetes Testbed - An experiment to test different security options in K8S
+# Kubernetes Testbed - An attempt to build up a best practise Kubernetes environment step by step
 
 Disclaimer: this is an experiment for myself to build a new system from scratch to keep my skills up to date, I make no promises as to how secure this is! Please review before copying code.
 
@@ -71,9 +71,9 @@ In this section, we're deploying a standard deployment pod (wordpress), with a M
 1. `kubectl apply -f namespaces.yml`
 2. Check things look valid with `kubectl diff -k ./`
 3. Apply with `kubectl apply -k ./`
-3.1 If you get the error `Error from server (InternalError): error when creating "./": Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": Post https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1beta1/ingresses?timeout=10s: no endpoints available for service "ingress-nginx-controller-admission"`, wait a couple of minutes and try again.
-4. Get the IP address of your load balancer by using `kubectl -n frontend get svc`.
-5. Set the A record of your subdomain name to point to this IP address. I have set *.k8s.personal.andyrepton.com to the IP address here.
+4. If you get the error `Error from server (InternalError): error when creating "./": Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": Post https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1beta1/ingresses?timeout=10s: no endpoints available for service "ingress-nginx-controller-admission"`, wait a couple of minutes and try again.
+5. Get the IP address of your load balancer by using `kubectl -n frontend get svc`.
+6. Set the A record of your subdomain name to point to this IP address. I have set *.k8s.personal.andyrepton.com to the IP address here.
 
 ### Alternative option: Moving the nameservers for the domain to GCP
 
@@ -86,7 +86,7 @@ And then setting my A record in GCP directly:
 
 ![DNS Info](./images/dns-config-gcp.png)
 
-## 1.a) Upgrade: adding an SSL certificate using LetsEncrypt staging
+# 1.a) Upgrade: adding an SSL certificate using LetsEncrypt staging
 
 - `cd 1.a.Basic-App-with-TLS-staging`
 
@@ -100,7 +100,7 @@ Let's Encrypt has a staging service that you can use to test your configuration 
 2. Apply with `kubectl apply -k ./`
 3. Browse to your website after a minute or so and you should see you now have a LetsEncrypt Staging certificate
 
-## 1.b) Upgrade: adding an SSL certificate using LetsEncrypt production
+# 1.b) Upgrade: adding an SSL certificate using LetsEncrypt production
 
 - cd `1.b.Basic-App-with-TLS-prod`
 
@@ -113,4 +113,57 @@ We're not going to replace this with a valid SSL certificate using the productio
 1. **Important** edit the your-info.yml and set your email address correctly
 2. Apply with `kubectl apply -k ./`
 3. Browse to your website after a minute or so and you should see you now have a valid LE certificate
+
+# 2. Adding prometheus, blackbox exporter and grafana for monitoring. FluentD and Loki for logging.
+
+- cd `2.Adding-Monitoring`
+
+## Overview:
+
+For our application, we want to ensure it is monitored. We're going to use Prometheus to scrape our Kubernetes targets, along with the blackbox exporter to check our site. We'll view these in an observability namespace with Grafana. Later, we'll add some alerts to our prometheus system and add an additional Ingress to allow access to the system with auth.
+
+## Deploying:
+
+1. Edit the `kustomize.yml` file to set a username and password for your grafana instance
+2. Check things look valid with `kubectl diff -k ./`
+3. Apply with `kubectl apply -k ./`
+4. You can now use the `kubectl port-forward` command to connect to your prometheus or grafana instance and confirm you can log in, using the username and password you set in the kustomization.yml file
+
+# 2.a) Upgrade: auto creating our prometheus data source and dashboard in grafana without a PVC
+
+- `cd 2.a.Auto-Importing-Monitoring-Dashboards`
+
+## Overview
+
+Using a PVC to hold our dashboard and data source info is an inefficient way to store our grafana config, so let's import it on startup using a Kubernetes Job. This is inspired by Giant-Swarm, so many thanks to them for the original code. You can see that here: https://github.com/giantswarm/prometheus/blob/master/manifests/grafana/
+
+## Deployment
+
+1. Check things look valid with `kubectl diff -k ./`
+2. Apply with `kubectl apply -k ./`
+3. If you check the pods, you can see the job starting up:
+
+```➜  k -n observability get pods
+NAME                              READY   STATUS     RESTARTS   AGE
+grafana-6fb4cb9bd4-mf69w          1/1     Running    0          11s
+grafana-import-dashboards-t54xp   0/1     Init:0/1   0          11s
+```
+
+4. You can now port-forward again, and you'll see a new dashboard created, along with a data source linking to our existing prometheus system
+![Dashboard](./images/grafana-dash.png)
+
+# 2.b) Upgrade: adding an ingress for our grafana system so we don't need to port forward
+
+- `cd 2.b.Adding-Monitoring-Ingress`
+
+## Overview
+
+While using a port-forward is one way of reaching our app, we can add a second ingress to allow us HTTPS access from outside of the cluster without needing to give kubectl access to an auditor for example.
+
+## Deployment
+
+1. Edit the `your-info.yml` file to add in your domain name for your grafana instance
+2. Check things look valid with `kubectl diff -k ./`
+3. Apply with `kubectl apply -k ./`
+4. You should now be able to reach your grafana instance via the domain name you set in the `your-info.yml` file.
 
