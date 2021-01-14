@@ -147,7 +147,8 @@ For our application, we want to ensure it is monitored. We're going to use Prome
 The prometheus deployment is relatively straight-forward, using a config map to hold our configuration. In addition, we've added a section that calls out to the blackbox exporter to test our ingresses automatically:
 
 ```        - target_label: __address__
-          replacement: prometheus-blackbox-exporter:9115```
+          replacement: prometheus-blackbox-exporter:9115
+```
 
 ## What's changed?
 
