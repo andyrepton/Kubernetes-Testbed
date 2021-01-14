@@ -141,6 +141,18 @@ We're not going to replace this with a valid SSL certificate using the productio
 
 For our application, we want to ensure it is monitored. We're going to use Prometheus to scrape our Kubernetes targets, along with the blackbox exporter to check our site. We'll view these in an observability namespace with Grafana. Later, we'll add some alerts to our prometheus system and add an additional Ingress to allow access to the system with auth.
 
+The prometheus deployment is relatively straight-forward, using a config map to hold our configuration. In addition, we've added a section that calls out to the blackbox exporter to test our ingresses automatically:
+
+```        - target_label: __address__
+          replacement: prometheus-blackbox-exporter:9115```
+
+## What's changed?
+
+- Addition of a prometheus deployment to the monitoring namespace
+- Addition of a config map for prometheus to set up the config to auto-discover Kubernetes endpoints and scrap them
+- Addition of a blackbox exporter deployment
+- Addition of a grafana instance to the observability namespace
+
 ## Deploying:
 
 1. Edit the `kustomize.yml` file to set a username and password for your grafana instance
@@ -155,6 +167,11 @@ For our application, we want to ensure it is monitored. We're going to use Prome
 ## Overview
 
 Using a PVC to hold our dashboard and data source info is an inefficient way to store our grafana config, so let's import it on startup using a Kubernetes Job. This is inspired by Giant-Swarm, so many thanks to them for the original code. You can see that here: https://github.com/giantswarm/prometheus/blob/master/manifests/grafana/
+
+## What's changed?
+
+- Addition of a config map containing our Grafana data source and dashboard code
+- Addition of a job that reads this config map and POSTs it to the Grafana API to automatically create our grafana config on startup
 
 ## Deployment
 
@@ -179,10 +196,65 @@ grafana-import-dashboards-t54xp   0/1     Init:0/1   0          11s
 
 While using a port-forward is one way of reaching our app, we can add a second ingress to allow us HTTPS access from outside of the cluster without needing to give kubectl access to an auditor for example.
 
+## What's changed?
+
+- Addition of an ingress for our grafana deployment so we can give access without needing kubectl access
+
 ## Deployment
 
 1. Edit the `your-info.yml` file to add in your domain name for your grafana instance
 2. Check things look valid with `kubectl diff -k ./`
 3. Apply with `kubectl apply -k ./`
 4. You should now be able to reach your grafana instance via the domain name you set in the `your-info.yml` file.
+
+# 3. Adding logging using fluentd and loki
+
+- `cd 3.Adding-Logging`
+
+## Overview:
+
+For our application, we want to ensure it is monitored and that we can browse the logs in an easy manner. We're going to use Prometheus to scrape our Kubernetes targets, and FluentD with Loki (from Grafana) to aggregate our logs. We'll view these in an observability namespace with Grafana. In addition, we'll use the blackbox exporter to test the frontend of our wordpress app. Finally, we'll add some alerts to our prometheus system and add an additional Ingress to allow access to the system with auth.
+
+## What's changed:
+
+- Addition of a fluentd daemonset to our cluster, that is gathering logs per node. On startup, we're using `fluentd-gem` to install the `fluent-plugin-grafana-loki` plugin to allow fluentd to communicate with loki
+- Addition of configmap that holds our fluentd config to parse our application logs and our kubernetes logs, and send the labels through to Loki
+- Addition of a Loki deployment to our observability namespace, as an endpoint for our fluentd daemonset
+- Addition of a dedicated service account for fluentd to have the privileges to read Kubernetes API endpoints
+
+## Deployment:
+
+1. Edit the `your-info.yml` file to add in your domain name for your grafana instance
+2. Check things look valid with `kubectl diff -k ./`
+3. Apply with `kubectl apply -k ./`
+4. You should now be able to reach your grafana instance via the domain name you set in the `your-info.yml` file. Here, you can connect to your loki instance by adding a data source to Loki as follows:
+
+![Loki Data Source](./images/loki.png)
+
+# 3.a) Upgrade: Auto create our Loki data source within Grafana to stream our logs automatically
+
+- `cd 3.a.Auto-Importing-Logging-DataSource`
+
+## Overview:
+
+Automation for the win! Time to automatically add our loki data source to the Grafana container on startup.
+
+## What's changed
+
+- Editing the Grafana config-map to automatically add the loki data source too
+
+## Deployment
+
+1. Delete the grafana auto-import job using `kubectl -n observability delete job grafana-import-dashboards`
+2. Edit the `your-info.yml` file to add in your domain name for your grafana instance
+3. Check things look valid with `kubectl diff -k ./`
+4. Apply with `kubectl apply -k ./`
+
+And now we should see our datasource auto created:
+
+![Loki auto Data Source](./images/loki-auto.png)
+
+5. We can now view our logs streaming in!
+
+![Loki logs](./images/loki-logs.png)
 

@@ -11,11 +11,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: frontend
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: monitoring
 ---
 apiVersion: v1
