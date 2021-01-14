@@ -14,6 +14,8 @@ I have done my best to use Kustomize to add features to each section, so you cou
 - [2. Adding prometheus, blackbox exporter and grafana for monitoring. FluentD and Loki for logging.](https://github.com/Seth-Karlo/Kubernetes-Testbed#2-adding-prometheus-blackbox-exporter-and-grafana-for-monitoring-fluentd-and-loki-for-logging)
 - [2.a) Upgrade: auto creating our prometheus data source and dashboard in grafana without a PVC](https://github.com/Seth-Karlo/Kubernetes-Testbed#2a-upgrade-auto-creating-our-prometheus-data-source-and-dashboard-in-grafana-without-a-pvc)
 - [2.b) Upgrade: adding an ingress for our grafana system so we don't need to port forward](https://github.com/Seth-Karlo/Kubernetes-Testbed#2b-upgrade-adding-an-ingress-for-our-grafana-system-so-we-dont-need-to-port-forward)
+- [3. Adding logging using fluentd and loki](https://github.com/Seth-Karlo/Kubernetes-Testbed#3-adding-logging-using-fluentd-and-loki)
+- [3.a) Upgrade: Auto create our Loki data source within Grafana to stream our logs automatically](https://github.com/Seth-Karlo/Kubernetes-Testbed#3a-upgrade-auto-create-our-loki-data-source-within-grafana-to-stream-our-logs-automatically)
 
 # Plan:
 
