@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app
+  labels:
+    tier: app
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database
+  labels:
+    tier: database
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    tier: monitoring
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+  labels:
+    tier: observability
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
+  labels:
+    tier: cert-manager
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    tier: ingress-nginx
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+  labels:
+    tier: logging

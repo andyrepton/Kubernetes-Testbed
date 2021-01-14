@@ -260,3 +260,19 @@ And now we should see our datasource auto created:
 
 ![Loki logs](./images/loki-logs.png)
 
+# 4. Securing our cluster with Network policies between namespaces
+
+- `cd 4.Introducing-Network-Policies`
+
+## Overview:
+
+Now that we have multiple namespaces, we can start adding network policies to restrict the traffic between them. If a pod is compromised, we don't want to allow access to the other namespaces. For this section to work, you'll need to have a networking system that can use Network Policies. For my cluster I'm using Calico. (Other network providers are available :-D )
+
+For now, I've avoided adding egress network policy rules as matching everything like DNS etc seemed overkill, but I might add egress as a 4.a section in the future.
+
+## Deployment
+
+1. Edit the `your-info.yml` file to add in your details
+2. Check things look valid with `kubectl diff -k ./`
+3. Apply with `kubectl apply -k ./`
+4. You should now be able to see your network policies applied. If everything went correctly, everything should be working as before!

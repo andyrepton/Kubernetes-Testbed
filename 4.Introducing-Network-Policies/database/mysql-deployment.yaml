@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: wordpress-mysql
   labels:
-    app: wordpress
+    app: mysql
   namespace: database
 spec:
   ports:
     - port: 3306
   selector:
-    app: wordpress
-    tier: mysql
+    app: mysql
+    tier: database
   clusterIP: None
 ---
 apiVersion: apps/v1
@@ -18,23 +18,21 @@ kind: Deployment
 metadata:
   name: wordpress-mysql
   labels:
-    app: wordpress
+    app: mysql
+    tier: database
   namespace: database
 spec:
   selector:
     matchLabels:
-      app: wordpress
-      tier: mysql
+      app: mysql
+      tier: database
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: wordpress
-        tier: mysql
-      annotations:
-        # Monitored via the Service
-        prometheus.io/scrape: 'false'
+        app: mysql
+        tier: database
     spec:
       containers:
       - image: mysql:5.6

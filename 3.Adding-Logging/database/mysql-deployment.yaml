@@ -32,6 +32,9 @@ spec:
       labels:
         app: wordpress
         tier: mysql
+      annotations:
+        # Monitored via the Service
+        prometheus.io/scrape: 'false'
     spec:
       containers:
       - image: mysql:5.6
