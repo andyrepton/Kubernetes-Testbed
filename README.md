@@ -16,6 +16,7 @@ I have done my best to use Kustomize to add features to each section, so you cou
 - [2.b) Upgrade: adding an ingress for our grafana system so we don't need to port forward](https://github.com/Seth-Karlo/Kubernetes-Testbed#2b-upgrade-adding-an-ingress-for-our-grafana-system-so-we-dont-need-to-port-forward)
 - [3. Adding logging using fluentd and loki](https://github.com/Seth-Karlo/Kubernetes-Testbed#3-adding-logging-using-fluentd-and-loki)
 - [3.a) Upgrade: Auto create our Loki data source within Grafana to stream our logs automatically](https://github.com/Seth-Karlo/Kubernetes-Testbed#3a-upgrade-auto-create-our-loki-data-source-within-grafana-to-stream-our-logs-automatically)
+- [4. Securing our cluster with Network policies between namespaces](https://github.com/Seth-Karlo/Kubernetes-Testbed#4-securing-our-cluster-with-network-policies-between-namespaces)
 
 # Plan:
 
